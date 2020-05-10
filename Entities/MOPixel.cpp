@@ -45,14 +45,17 @@ void MOPixel::Clear()
 
 int MOPixel::Create()
 {
-    if (MovableObject::Create() < 0)
+    if (MovableObject::Create() < 0) {
         return -1;
+    }
 
-    if (!m_pAtom)
+    if (!m_pAtom) {
         m_pAtom = new Atom;
+    }
 
-    if (m_MinLethalRange < m_MaxLethalRange)
+    if (m_MinLethalRange < m_MaxLethalRange) {
         m_LethalRange *= RangeRand(m_MinLethalRange, m_MaxLethalRange);
+    }
 
     m_LethalSharpness = m_Sharpness * 0.5;
 
@@ -76,8 +79,9 @@ int MOPixel::Create(Color color,
     m_pAtom = atom;
     m_pAtom->SetOwner(this);
 
-    if (m_MinLethalRange < m_MaxLethalRange)
+    if (m_MinLethalRange < m_MaxLethalRange) {
         m_LethalRange *= RangeRand(m_MinLethalRange, m_MaxLethalRange);
+    }
 
     m_LethalSharpness = m_Sharpness * 0.5;
 
@@ -116,22 +120,27 @@ int MOPixel::Create(const MOPixel &reference)
 
 int MOPixel::ReadProperty(std::string propName, Reader &reader)
 {
-    if (propName == "Color")
+    if (propName == "Color") {
         reader >> m_Color;
+    }
     else if (propName == "Atom")
     {
-        if (!m_pAtom)
+        if (!m_pAtom) {
             m_pAtom = new Atom;
+        }
         reader >> m_pAtom;
         m_pAtom->SetOwner(this);
     }
-    else if (propName == "MinLethalRange")
+    else if (propName == "MinLethalRange") {
         reader >> m_MinLethalRange;
-    else if (propName == "MaxLethalRange")
+    }
+    else if (propName == "MaxLethalRange") {
         reader >> m_MaxLethalRange;
-	else
+    }
+    else {
         // See if the base class(es) can find a match instead
         return MovableObject::ReadProperty(propName, reader);
+    }
 
     return 0;
 }
@@ -171,8 +180,9 @@ void MOPixel::Destroy(bool notInherited)
 
     delete m_pAtom;
 
-    if (!notInherited)
+    if (!notInherited) {
         MovableObject::Destroy();
+    }
     Clear();
 }
 
@@ -222,8 +232,9 @@ void MOPixel::SetAtom(Atom *newAtom)
 void MOPixel::SetLethalRange(float range)
 {
     m_LethalRange = range;
-    if (m_MinLethalRange < m_MaxLethalRange)
+    if (m_MinLethalRange < m_MaxLethalRange) {
         m_LethalRange *= RangeRand(m_MinLethalRange, m_MaxLethalRange);
+    }
     m_LethalRange /= g_FrameMan.GetPPM();   // convert to meters
 };
 
@@ -267,9 +278,10 @@ bool MOPixel::CollideAtPoint(HitData &hd)
     hd.mass[HITEE] = m_Mass;
 
     // See if we were already hit by this MO earlier during this frame update.
-    if (m_AlreadyHitBy.find(hd.pBody[HITOR]->GetID()) != m_AlreadyHitBy.end())
+    if (m_AlreadyHitBy.find(hd.pBody[HITOR]->GetID()) != m_AlreadyHitBy.end()) {
         // If we were hit, then remove so that if we 
         m_AlreadyHitBy.erase(hd.pBody[HITOR]->GetID());
+    }
     // We weren't previously hit by this MO, so go ahead and apply collision response
     else {
         // Note that we now have been hit by this MO
@@ -319,13 +331,9 @@ void MOPixel::RestDetection()
     MovableObject::RestDetection();
 
     // If we seem to be about to settle, make sure we're not flying in the air still
-    if (m_ToSettle || IsAtRest())
-    {
-        if (g_SceneMan.OverAltitude(m_Pos, 2, 0))
-        {
-            m_RestTimer.Reset();
-            m_ToSettle = false;
-        }
+    if ((m_ToSettle || IsAtRest()) && g_SceneMan.OverAltitude(m_Pos, 2, 0)) {
+        m_RestTimer.Reset();
+        m_ToSettle = false;
     }
 }
 
@@ -339,16 +347,18 @@ void MOPixel::Travel()
 {
     MovableObject::Travel();
 
-    if (m_PinStrength)
+    if (m_PinStrength) {
         return;
+    }
 
     // Set the atom to ignore a certain MO, if set and applicable.
     if (m_HitsMOs && m_pMOToNotHit && g_MovableMan.ValidMO(m_pMOToNotHit) && !m_MOIgnoreTimer.IsPastSimTimeLimit())
     {
         MOID root = m_pMOToNotHit->GetID();
         int footprint = m_pMOToNotHit->GetMOIDFootprint();
-        for (int i = 0; i < footprint; ++i)
+        for (int i = 0; i < footprint; ++i) {
             m_pAtom->AddMOIDToIgnore(root + i);
+        }
     }
 
     // Do static particle bounce calculations.
@@ -383,14 +393,16 @@ void MOPixel::Update()
         m_DistanceTraveled += m_Vel.GetLargest() * g_TimerMan.GetDeltaTimeSecs();
         if (m_DistanceTraveled > m_LethalRange)
         {
-			
-            if (m_Sharpness < m_LethalSharpness)
+            if (m_Sharpness < m_LethalSharpness) {
                 m_Sharpness = max(m_Sharpness * (1.0 - (20.0 * g_TimerMan.GetDeltaTimeSecs())) - 0.1, 0.0);
-            else
+            }
+            else {
                 m_Sharpness *= 1.0 - (10.0 * g_TimerMan.GetDeltaTimeSecs());
+            }
 			
-			if (m_LethalRange > 0)
-				m_HitsMOs = false;
+            if (m_LethalRange > 0) {
+                m_HitsMOs = false;
+            }
         }
     }
 }
@@ -408,8 +420,9 @@ void MOPixel::Draw(BITMAP *pTargetBitmap,
                    bool onlyPhysical) const
 {
     // Don't draw color if this isn't a drawing frame
-    if (!g_TimerMan.DrawnSimUpdate() && mode == g_DrawColor)
+    if (!g_TimerMan.DrawnSimUpdate() && mode == g_DrawColor) {
         return;
+    }
 
 /*
     pTargetBitmap->Line(m_PrevPos.GetFloorIntX(),
@@ -437,8 +450,9 @@ void MOPixel::Draw(BITMAP *pTargetBitmap,
                                                    (mode == g_DrawMOID ? m_MOID :
                                                    (mode == g_DrawNoMOID ? g_NoMOID : m_Color.GetIndex())))));
 
-    if (mode == g_DrawMOID)
+    if (mode == g_DrawMOID) {
         g_SceneMan.RegisterMOIDDrawing(m_Pos - targetPos, 1);
+    }
 
     // Set the screen effect to draw at the final post processing stage
     if (m_pScreenEffect && mode == g_DrawColor && !onlyPhysical && m_AgeTimer.GetElapsedSimTimeMS() >= m_EffectStartTime && (m_EffectStopTime == 0 || !m_AgeTimer.IsPastSimMS(m_EffectStopTime)) && (m_EffectAlwaysShows || !g_SceneMan.ObscuredPoint(m_Pos.GetFloorIntX(), m_Pos.GetFloorIntY()))) {

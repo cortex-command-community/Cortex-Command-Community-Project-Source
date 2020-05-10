@@ -42,11 +42,13 @@ void MOSParticle::Clear()
 
 int MOSParticle::Create()
 {
-    if (MOSprite::Create() < 0)
+    if (MOSprite::Create() < 0) {
         return -1;
+    }
 
-    if (!m_pAtom)
+    if (!m_pAtom) {
         m_pAtom = new Atom();
+    }
 
     return 0;
 }
@@ -99,16 +101,19 @@ int MOSParticle::ReadProperty(std::string propName, Reader &reader)
 {
     if (propName == "Atom")
     {
-        if (!m_pAtom)
+        if (!m_pAtom) {
             m_pAtom = new Atom;
+        }
         reader >> *m_pAtom;
         m_pAtom->SetOwner(this);
     }
-    else if (propName == "Framerate")
+    else if (propName == "Framerate") {
         reader >> m_Framerate;
-    else
+    }
+    else {
         // See if the base class(es) can find a match instead
         return MOSprite::ReadProperty(propName, reader);
+    }
 
     return 0;
 }
@@ -143,8 +148,9 @@ void MOSParticle::Destroy(bool notInherited)
 {
     delete m_pAtom;
 
-    if (!notInherited)
+    if (!notInherited) {
         MOSprite::Destroy();
+    }
     Clear();
 }
 
@@ -262,15 +268,9 @@ void MOSParticle::RestDetection()
     MOSprite::RestDetection();
 
     // If we seem to be about to settle, make sure we're not flying in the air still
-    if (m_ToSettle || IsAtRest())
-    {
-        if (g_SceneMan.OverAltitude(m_Pos, (m_aSprite[m_Frame]->h / 2) + 3, 2))
-        {
-            m_RestTimer.Reset();
-            m_ToSettle = false;
-        }
-// TODO: REMOVE
-//        bool KUIKEN = g_SceneMan.OverAltitude(m_Pos, (m_aSprite[m_Frame]->h / 2) + 3, 2);
+    if ((m_ToSettle || IsAtRest()) && g_SceneMan.OverAltitude(m_Pos, (m_aSprite[m_Frame]->h / 2) + 3, 2)) {
+        m_RestTimer.Reset();
+        m_ToSettle = false;
     }
 }
 
@@ -285,8 +285,9 @@ void MOSParticle::Travel()
     MOSprite::Travel();
 
     // Pinned objects don't travel!
-    if (m_PinStrength)
+    if (m_PinStrength) {
         return;
+    }
 
     float deltaTime = g_TimerMan.GetDeltaTimeSecs();
     float velMag = m_Vel.GetMagnitude();
@@ -299,8 +300,9 @@ void MOSParticle::Travel()
     {
         MOID root = m_pMOToNotHit->GetID();
         int footprint = m_pMOToNotHit->GetMOIDFootprint();
-        for (int i = 0; i < footprint; ++i)
+        for (int i = 0; i < footprint; ++i) {
             m_pAtom->AddMOIDToIgnore(root + i);
+        }
     }
 
     // Do static particle bounce calculations.
@@ -358,10 +360,12 @@ void MOSParticle::Travel()
     }
 
     // Bounds
-    if (m_Frame < 0)
+    if (m_Frame < 0) { //this will always be true because m_Frame is unsigned
         m_Frame = 0;
-    if (m_Frame >= m_FrameCount)
+    }
+    if (m_Frame >= m_FrameCount) {
         m_Frame = m_FrameCount - 1;
+    }
 }
 
 
@@ -401,14 +405,18 @@ void MOSParticle::Draw(BITMAP *pTargetBitmap,
     Vector spritePos(m_Pos + m_SpriteOffset - targetPos);
 
     // Draw the requested material sihouette on the material bitmap
-    if (mode == g_DrawMaterial)
+    if (mode == g_DrawMaterial) {
         draw_character_ex(pTargetBitmap, m_aSprite[m_Frame], spritePos.GetFloorIntX(), spritePos.GetFloorIntY(), m_SettleMaterialDisabled ? GetMaterial()->id : GetMaterial()->GetSettleMaterialID(), -1);
-    else if (mode == g_DrawAir)
+    }
+    else if (mode == g_DrawAir) {
         draw_character_ex(pTargetBitmap, m_aSprite[m_Frame], spritePos.GetFloorIntX(), spritePos.GetFloorIntY(), g_MaterialAir, -1);
-    else if (mode == g_DrawKey)
+    }
+    else if (mode == g_DrawKey) {
         draw_character_ex(pTargetBitmap, m_aSprite[m_Frame], spritePos.GetFloorIntX(), spritePos.GetFloorIntY(), g_MaskColor, -1);
-    else if (mode == g_DrawWhite)
+    }
+    else if (mode == g_DrawWhite) {
         draw_character_ex(pTargetBitmap, m_aSprite[m_Frame], spritePos.GetFloorIntX(), spritePos.GetFloorIntY(), g_WhiteColor, -1);
+    }
     else if (mode == g_DrawMOID)
     {
         int spriteX = spritePos.GetFloorIntX();
@@ -416,17 +424,20 @@ void MOSParticle::Draw(BITMAP *pTargetBitmap,
         draw_character_ex(pTargetBitmap, m_aSprite[m_Frame], spriteX, spriteY, m_MOID, -1);
         g_SceneMan.RegisterMOIDDrawing(spriteX, spriteY, spriteX + m_aSprite[m_Frame]->w, spriteY + m_aSprite[m_Frame]->h);
     }
-    else if (mode == g_DrawNoMOID)
+    else if (mode == g_DrawNoMOID) {
         draw_character_ex(pTargetBitmap, m_aSprite[m_Frame], spritePos.GetFloorIntX(), spritePos.GetFloorIntY(), g_NoMOID, -1);
-    else if (mode == g_DrawTrans)
+    }
+    else if (mode == g_DrawTrans) {
         draw_trans_sprite(pTargetBitmap, m_aSprite[m_Frame], spritePos.GetFloorIntX(), spritePos.GetFloorIntY());
+    }
     else if (mode == g_DrawAlpha)
     {
         set_alpha_blender();
         draw_trans_sprite(pTargetBitmap, m_aSprite[m_Frame], spritePos.GetFloorIntX(), spritePos.GetFloorIntY());
     }
-    else
+    else {
         draw_sprite(pTargetBitmap, m_aSprite[m_Frame], spritePos.GetFloorIntX(), spritePos.GetFloorIntY());
+    }
 
     // Set the screen effect to draw at the final post processing stage
     if (m_pScreenEffect && mode == g_DrawColor && !onlyPhysical && m_AgeTimer.GetElapsedSimTimeMS() >= m_EffectStartTime && (m_EffectStopTime == 0 || !m_AgeTimer.IsPastSimMS(m_EffectStopTime)) &&  (m_EffectAlwaysShows || !g_SceneMan.ObscuredPoint(m_Pos.GetFloorIntX(), m_Pos.GetFloorIntY()))) {
