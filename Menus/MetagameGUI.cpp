@@ -3011,11 +3011,16 @@ void MetagameGUI::CompletedActivity()
             pAlteredScene->RetrieveActorsAndDevices(winningTeam, autoResolved);
             // Save out the altered scene before clearing out its data from memory
             pAlteredScene->SaveData(METASAVEPATH + string(AUTOSAVENAME) + " - " + pAlteredScene->GetPresetName());
+            // Deep copy the altered scene to a backup, before deleting the bitmap.
+            Scene* alteredBackup = new Scene;
+            alteredBackup->Create(*pAlteredScene);
             // Clear the bitmap data etc of the altered scene, we don't need to copy that over
             pAlteredScene->ClearData();
             // Deep copy over all the edits made to the newly played Scene
             m_pPlayingScene->Destroy();
             m_pPlayingScene->Create(*pAlteredScene);
+            // Revert the g_frameman current scene to the backup scene.
+            g_SceneMan.LoadScene(alteredBackup);
             // Scrub the module ID so the migration goes well.. this is a bit hacky, but ok in this special case
             m_pPlayingScene->SetModuleID(-1);
             m_pPlayingScene->GetTerrain()->SetModuleID(-1);
