@@ -379,8 +379,7 @@ const Entity * PresetMan::GetEntityPreset(string type, string preset, int whichM
 			}
 		}
 	}
-	RTEAssert(type != "AtomGroup" || pRetEntity != nullptr, "AtomGroup PresetName \"" + preset + "\" was not found in data modules.");
-
+	
 	return pRetEntity;
 }
 
