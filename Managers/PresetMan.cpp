@@ -343,45 +343,45 @@ bool PresetMan::AddEntityPreset(Entity *pEntToAdd, int whichModule, bool overwri
 
 const Entity * PresetMan::GetEntityPreset(string type, string preset, int whichModule)
 {
-    RTEAssert(whichModule < (int)m_pDataModules.size(), "Tried to access an out of bounds data module number!");
+	RTEAssert(whichModule < (int)m_pDataModules.size(), "Tried to access an out of bounds data module number!");
 
-    const Entity *pRetEntity = 0;
+	const Entity* pRetEntity = 0;
 
-    // Preset name might have "[ModuleName]/" preceding it, detect it here and select proper module!
-    int slashPos = preset.find_first_of('/');
-    if (slashPos != string::npos)
-    {
-        // Get the module ID and cut off the module specifier in the string
-        whichModule = GetModuleID(preset.substr(0, slashPos));
-        preset = preset.substr(slashPos + 1);
-    }
+	// Preset name might have "[ModuleName]/" preceding it, detect it here and select proper module!
+	int slashPos = preset.find_first_of('/');
+	if (slashPos != string::npos)
+	{
+		// Get the module ID and cut off the module specifier in the string
+		whichModule = GetModuleID(preset.substr(0, slashPos));
+		preset = preset.substr(slashPos + 1);
+	}
 
-    // All modules
-    if (whichModule < 0)
-    {
-        // Search all modules
-        for (int i = 0; i < m_pDataModules.size() && !pRetEntity; ++i)
-            pRetEntity = m_pDataModules[i]->GetEntityPreset(type, preset);
-    }
-    // Specific module
-    else
-    {
-        // Try to get it from the asked for module
-        pRetEntity = m_pDataModules[whichModule]->GetEntityPreset(type, preset);
+	// All modules
+	if (whichModule < 0)
+	{
+		// Search all modules
+		for (int i = 0; i < m_pDataModules.size() && !pRetEntity; ++i)
+			pRetEntity = m_pDataModules[i]->GetEntityPreset(type, preset);
+	}
+	// Specific module
+	else
+	{
+		// Try to get it from the asked for module
+		pRetEntity = m_pDataModules[whichModule]->GetEntityPreset(type, preset);
 
-        // If couldn't find it in there, then try all the official modules!
-        if (!pRetEntity)
-        {
-            RTEAssert(m_OfficialModuleCount <= m_pDataModules.size(), "More official modules than modules loaded?!");
-            for (int i = 0; i < m_OfficialModuleCount && !pRetEntity; ++i)
-            {
-                pRetEntity = m_pDataModules[i]->GetEntityPreset(type, preset);
-            }
-        }
-    }
+		// If couldn't find it in there, then try all the official modules!
+		if (!pRetEntity)
+		{
+			RTEAssert(m_OfficialModuleCount <= m_pDataModules.size(), "More official modules than modules loaded?!");
+			for (int i = 0; i < m_OfficialModuleCount && !pRetEntity; ++i)
+			{
+				pRetEntity = m_pDataModules[i]->GetEntityPreset(type, preset);
+			}
+		}
+	}
 	RTEAssert(type != "AtomGroup" || pRetEntity != nullptr, "AtomGroup PresetName \"" + preset + "\" was not found in data modules.");
 
-    return pRetEntity;
+	return pRetEntity;
 }
 
 
