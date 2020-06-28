@@ -30,7 +30,7 @@ Lua AI Implementation
 S T E F A N   " A B D U L   A L H A Z R E D "   W I N B E R G
 
 Intro and Main Menu Music Composition and Production
-R O B E R T   S T J Ä R N S T R Ö M   &   J O N A S   R Ö R L I N G,   H U B N E S T E R   I N D U S T R I E S
+R O B E R T   S T J Ã„ R N S T R Ã– M   &   J O N A S   R Ã– R L I N G,   H U B N E S T E R   I N D U S T R I E S
 
 Campaign Menu, Launch Trailer, and In-game Music Composition and Production
 D A N N Y   B A R A N O W S K Y ,   D B   S O U N D W O R K S
@@ -52,13 +52,13 @@ J A K E   " H E A R T S M A N "   H A R O L D
 A N T O N   P I K A L O V
 
 Special Thanks
-LEE THOMASON, 'JAMES' GENGE, RAIGAN BURNS, NICK WAANDERS, JAMIE CHENG, NATHANIEL SABANSKI
+LEE THOMASON, 'JAMES' GENGE, RAIGAN BURNS, NICK WAANDERS, JAMIE CHENG, NATHANIEL SABANSKI, JOSH ONKOBA
 
 Technology Platform
 ALLEGRO, FMOD, LUA, LUAJIT, LUABIND, LIBCURL, OGG VORBIS, MICROPATHER, MSVC8 CRTs, SDL2, RAKNET, LZ4, GORILLA AUDIO
 
-FMOD Sound System, copyright © Firelight Technologies Pty, Ltd., 1994-2007.
-Portions Copyright © 2001, Xiphophorus
+FMOD Sound System, copyright Â© Firelight Technologies Pty, Ltd., 1994-2007.
+Portions Copyright Â© 2001, Xiphophorus
 
 
-Cortex Command is TM and © 2019 Data Realms, LLC
+Cortex Command is TM and Â© 2019 Data Realms, LLC
