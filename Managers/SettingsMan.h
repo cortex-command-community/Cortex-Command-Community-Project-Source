@@ -86,7 +86,7 @@ namespace RTE {
 		/// Sets whether to use additional Draws during MO's PreTravel and PostTravel to update MO layer this frame with more precision, or just data from the last frame with less precision.
 		/// </summary>
 		/// <param name="newValue">True for precise collisions.</param>
-		void SetPreciseCollisions(bool newValue) { m_PreciseCollisions = newValue; }
+		// void SetPreciseCollisions(bool newValue) { m_PreciseCollisions = newValue; }
 #pragma endregion
 
 #pragma region Display Settings
