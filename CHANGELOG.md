@@ -272,7 +272,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 	`soundContainer.Pitch` - Rather than updating the `SoundContainer's` pitch through `AudioMan`, you should now use the `Pitch` property. Also note that this now works properly with the game's global pitch so no complicated handling is necessary.
 	
 - `AddSound` and `SelectNextSoundSet` Lua bindings have been moved from `SoundContainer` to `SoundSet`. The latter has been renamed and the former have been trimmed down slightly since some complexity is no longer needed. Their speciifcs are mentioned in the `Added` section.
-- Pressing escape when a buy menu is open now closes it instead of returning to the main menu.
 
 ### Fixed
 
