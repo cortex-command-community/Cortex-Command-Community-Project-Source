@@ -110,6 +110,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Executable is compiled with clang-cl on Windows.
+
 - Hands will now draw in transparent drawing mode, i.e. editing menu.
 
 - `AHuman` background `Leg` will no longer draw in front of the `AHuman`. The real result of this is that the background foot will no longer draw in front of the foreground one.
@@ -196,6 +198,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Renamed `Attachable` INI property `CollidesWithTerrainWhenAttached` to more correct, consistent `CollidesWithTerrainWhileAttached`.
 
 ### Removed
+- Removed support for VS2017 to ensure cross compatibility through clang
 
 - Removed obsolete graphics drivers and their `Settings.ini` properties `ForceOverlayedWindowGfxDriver` and `ForceNonOverlayedWindowGfxDriver`.
 
