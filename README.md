@@ -10,7 +10,7 @@ Stay up to date in our [Discord channel](https://discord.gg/TSU6StNQUG).
 First you need to download the necessary files:
 
 1. Install the necessary tools.  
-You'll probably want [Visual Studio Community Edition 2019](https://visualstudio.microsoft.com/downloads/) (build supports both 2017 and 2019 versions) with the Clang-C++ toolset installed (select Clang-C++ for Windows in the installer).  
+You'll probably want [Visual Studio Community Edition 2019](https://visualstudio.microsoft.com/downloads/) with the Clang-C++ toolset installed (select Clang-C++ for Windows in the installer).  
 You also need to have both x86 and x64 versions of the [Visual C++ Redistributable for Visual Studio 2017](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) installed in order to run the compiled builds.  
 You may also want to check out the list of recommended Visual Studio plugins [here](https://github.com/cortex-command-community/Cortex-Command-Community-Project-Source/wiki/Information,-Recommended-Plugins-and-Useful-Links).
 
