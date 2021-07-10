@@ -933,6 +933,9 @@
     <ClCompile Include="Menus\InventoryMenuGUI.cpp">
       <Filter>Menus</Filter>
     </ClCompile>
+    <ClCompile Include="System\Serializable.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\ccicon.ico">
